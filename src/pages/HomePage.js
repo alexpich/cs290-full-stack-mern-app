@@ -4,7 +4,8 @@ import ExerciseList from "../components/ExerciseList";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-function HomePage() {
+function HomePage({ setExerciseToEdit }) {
+    const history = useHistory();
     const [exercises, setExercises] = useState([]);
 
     const onDelete = async (id) => {
@@ -18,6 +19,11 @@ function HomePage() {
                 `Failed to delete exercise with id = ${id}, status code = ${response.status}`
             );
         }
+    };
+
+    const onEdit = async (exerciseToEdit) => {
+        setExerciseToEdit(exerciseToEdit);
+        history.push("/edit-exercise");
     };
 
     const loadExercises = async () => {
@@ -36,6 +42,7 @@ function HomePage() {
             <ExerciseList
                 exercises={exercises}
                 onDelete={onDelete}
+                onEdit={onEdit}
             ></ExerciseList>
             <Link to="/add-exercise">Add an exercise</Link>
         </>
